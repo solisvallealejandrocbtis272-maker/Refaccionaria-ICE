@@ -1,0 +1,41 @@
+/* Estilos globales y fondo suave */
+body {
+    background-color: #fff5f8;
+    color: #253348;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+}
+
+/* Marca de la navegación */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Tarjetas y sombras suaves */
+.card {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Ajuste de desplazamiento para los identificadores (#registro y #lista) */
+section[id] {
+    scroll-margin-top: 1.5rem;
+}
+
+/* Encabezados de tabla */
+.table th {
+    white-space: nowrap;
+}
+
+/* Transiciones suaves en botones e interactividad */
+.btn {
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Personalización del badge contador */
+.badge {
+    font-size: 0.85em;
+    border-radius: 0.5rem;
+}
