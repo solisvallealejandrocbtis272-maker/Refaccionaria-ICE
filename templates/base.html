@@ -3,51 +3,58 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Belleza Ana - Catálogo</title>
+    <title>Taller Automotriz - Control de Refacciones</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark" aria-label="Menú principal">
+    <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Menú principal">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('inicio') }}">
-                Belleza Ana
+                🔧 Taller Automotriz
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir o cerrar menú">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="menuPrincipal">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('inicio') }}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('inicio') }}#registro">Registrar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('inicio') }}#lista">Catálogo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('ayuda') }}">Ayuda</a>
-                    </li>
+                <ul class="navbar-nav ms-auto align-items-center">
+                    {% if session.get('usuario') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('inicio') }}">Panel Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('catalogo') }}">Catálogo Web</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('ayuda') }}">Ayuda</a>
+                        </li>
+                        <li class="nav-item ms-lg-3">
+                            <span class="text-warning small d-block mb-1 mb-lg-0">👤 {{ session['usuario'] }}</span>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-outline-light btn-sm" href="{{ url_for('logout') }}">Cerrar sesión</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">Iniciar sesión</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-warning btn-sm text-dark ms-lg-2" href="{{ url_for('registro') }}">Registrarse</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
 
     <main class="container py-4">
-        <header class="mb-4">
-            <p class="text-uppercase text-secondary small mb-1">
-                Mi proyecto Belleza Ana
-            </p>
-            <h1 class="h2">Catálogo de productos</h1>
-            <p class="text-secondary">Administra los productos de cuidado personal.</p>
-        </header>
         {% block contenido %}{% endblock %}
     </main>
 
-    <footer class="container py-3 border-top text-secondary small">
-        Laboratorio de Aplicaciones Web
+    <footer class="py-3 text-center small">
+        <div class="container">
+            Sistema de Inventario y Refacciones - Taller Automotriz &copy; 2026
+        </div>
     </footer>
 
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>

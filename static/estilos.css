@@ -1,41 +1,76 @@
-/* Estilos globales y fondo suave */
-body {
-    background-color: #fff5f8;
-    color: #253348;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+:root {
+    --primary-color: #1e293b; /* Azul acero oscuro / Industrial */
+    --accent-color: #f59e0b;  /* Naranja / Amarillo advertencia automotriz */
+    --bg-color: #f8fafc;      /* Gris muy claro, limpio */
+    --card-bg: #ffffff;
+    --text-color: #334155;
 }
 
-/* Marca de la navegación */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Barra de navegación */
+.navbar {
+    background-color: var(--primary-color) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
 .navbar-brand {
     font-weight: 700;
     letter-spacing: 0.5px;
+    color: var(--accent-color) !important;
 }
 
-/* Tarjetas y sombras suaves */
+/* Tarjetas */
 .card {
-    border: 0;
-    border-radius: 1rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    background-color: var(--card-bg);
 }
 
-/* Ajuste de desplazamiento para los identificadores (#registro y #lista) */
-section[id] {
-    scroll-margin-top: 1.5rem;
+/* Botones */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 500;
 }
 
-/* Encabezados de tabla */
-.table th {
-    white-space: nowrap;
+.btn-primary:hover {
+    background-color: #0f172a;
+    border-color: #0f172a;
 }
 
-/* Transiciones suaves en botones e interactividad */
-.btn {
-    border-radius: 0.5rem;
-    transition: all 0.2s ease-in-out;
+.btn-warning {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #fff;
+    font-weight: 500;
 }
 
-/* Personalización del badge contador */
-.badge {
-    font-size: 0.85em;
-    border-radius: 0.5rem;
+/* Tablas */
+.table-hover tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Formularios */
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.25);
+}
+
+footer {
+    background-color: #e2e8f0;
+    color: #64748b;
+    border-top: 1px solid #cbd5e1;
 }

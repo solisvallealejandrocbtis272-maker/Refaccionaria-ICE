@@ -1,22 +1,17 @@
 {% extends 'base.html' %}
 {% block contenido %}
-<section class="card shadow-sm">
+<div class="card shadow-sm">
     <div class="card-body p-4">
-        <h2 class="h4">Ayuda de Belleza Ana</h2>
-        <p class="text-secondary">Fecha del equipo: {{ fecha }}</p>
-        <div class="alert alert-info" role="note">
-            Utiliza datos ficticios durante la práctica.
-        </div>
-        <ol class="mb-4">
-            <li>En Registrar, escribe producto, categoría y selecciona estado.</li>
-            <li>Presiona Guardar producto y consulta el catálogo.</li>
-            <li>Usa Editar para corregir los datos de un producto.</li>
-            <li>Usa Eliminar solo con tus registros de prueba.</li>
-            <li>En pantalla pequeña, abre el menú con su botón.</li>
+        <h2 class="h4">Centro de Ayuda - Taller Automotriz</h2>
+        <p class="text-secondary">Fecha del sistema: {{ fecha }}</p>
+        <hr>
+        <ol class="mb-4 lh-lg">
+            <li>Inicia sesión con tu cuenta de usuario para administrar el inventario.</li>
+            <li>Usa el panel de administración para registrar, editar o eliminar piezas.</li>
+            <li>Utiliza la barra de búsqueda para localizar refacciones rápidamente por nombre o sistema.</li>
+            <li>Visita el <strong>Catálogo Web</strong> para una vista general en formato de tarjetas.</li>
         </ol>
-        <a class="btn btn-primary" href="{{ url_for('inicio') }}">
-            Volver al catálogo
-        </a>
+        <a class="btn btn-primary" href="{{ url_for('inicio') }}">Volver al panel</a>
     </div>
-</section>
+</div>
 {% endblock %}

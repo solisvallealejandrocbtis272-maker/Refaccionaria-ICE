@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<header class="mb-4 text-center">
+    <h1 class="h2">Catálogo Público de Refacciones</h1>
+    <p class="text-secondary">Consulta rápida de componentes disponibles en el taller.</p>
+</header>
+
+<!-- Buscador del Catálogo -->
+<form method="get" action="{{ url_for('catalogo') }}" class="row justify-content-center mb-5">
+    <div class="col-md-6">
+        <div class="input-group">
+            <input class="form-control" type="search" name="q" value="{{ busqueda }}" placeholder="Buscar refacción...">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+            {% if busqueda %}
+            <a href="{{ url_for('catalogo') }}" class="btn btn-outline-secondary">Limpiar</a>
+            {% endif %}
+        </div>
+    </div>
+</form>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for pieza in piezas %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-top border-4 border-warning">
+            <div class="card-body">
+                <span class="badge bg-secondary mb-2">{{ pieza.categoria }}</span>
+                <h3 class="h5 card-title text-dark">{{ pieza.nombre }}</h3>
+                <p class="card-text mt-3">
+                    Estado: 
+                    <strong class="{% if pieza.estado == 'Disponible' %}text-success{% else %}text-danger{% endif %}">
+                        {{ pieza.estado }}
+                    </strong>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center py-5">
+        <p class="text-secondary fs-5">No hay refacciones que coincidan con tu búsqueda.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

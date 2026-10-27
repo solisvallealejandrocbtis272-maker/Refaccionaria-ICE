@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow-sm p-4">
+            <h2 class="h3 mb-3 text-center">Registro de Usuario</h2>
+            
+            {% if error %}
+            <div class="alert alert-danger py-2" role="alert">{{ error }}</div>
+            {% endif %}
+
+            <form method="post">
+                <div class="mb-3">
+                    <label for="usuario" class="form-label">Nombre de Usuario</label>
+                    <input type="text" class="form-control" id="usuario" name="usuario" required autofocus>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-warning w-100 py-2 text-dark">Crear Cuenta</button>
+            </form>
+            <div class="text-center mt-3">
+                <small class="text-secondary">¿Ya tienes cuenta? <a href="{{ url_for('login') }}" class="text-decoration-none">Inicia sesión</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
