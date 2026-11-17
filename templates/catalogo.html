@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="row">
+    <!-- Menú Lateral de Categorías -->
+    <div class="col-md-3">
+        <div class="category-sidebar">
+            <h6>Categorías</h6>
+            <div class="list-group">
+                <a href="{{ url_for('catalogo') }}" class="list-group-item {% if not categoria_filtro %}active{% endif %}">
+                    Todas las categorías
+                </a>
+                {% for cat in categorias %}
+                <a href="{{ url_for('catalogo', categoria=cat, q=busqueda) }}" class="list-group-item {% if categoria_filtro == cat %}active{% endif %}">
+                    {{ cat }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Rejilla de Productos -->
+    <div class="col-md-9">
+        <!-- Barra superior de filtros de la rejilla -->
+        <div class="card" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding: 10px 15px; margin-bottom: 20px;">
+            <span style="font-size: 0.9rem; font-weight: 600;">{{ piezas|length }} Producto(s) encontrado(s)</span>
+            <form method="get" action="{{ url_for('catalogo') }}" style="display: flex; gap: 10px; align-items: center;">
+                <input type="hidden" name="q" value="{{ busqueda }}">
+                <input type="hidden" name="categoria" value="{{ categoria_filtro }}">
+                <label style="font-size: 0.85rem; white-space: nowrap;">Ordenar por:</label>
+                <select name="orden" class="form-select" style="margin-top: 0; padding: 5px 10px;" onchange="this.form.submit()">
+                    <option value="nombre_asc" {% if orden == 'nombre_asc' %}selected{% endif %}>Nombre (A-Z)</option>
+                    <option value="precio_asc" {% if orden == 'precio_asc' %}selected{% endif %}>Precio: Menor a Mayor</option>
+                    <option value="precio_desc" {% if orden == 'precio_desc' %}selected{% endif %}>Precio: Mayor a Menor</option>
+                </select>
+            </form>
+        </div>
+
+        <!-- Tarjetas de Productos -->
+        <div class="row-cols-md-3">
+            {% for pieza in piezas %}
+            <div class="product-card">
+                <div>
+                    <div class="product-img-wrapper">
+                        <img src="{{ pieza.imagen }}" alt="{{ pieza.nombre }}">
+                    </div>
+                    <div class="product-brand">{{ pieza.marca|default('GENÉRICO') }}</div>
+                    <div class="product-title">{{ pieza.nombre }}</div>
+                    <div class="product-compatibility">
+                        Compatibilidad: {{ pieza.modelo|default('Universal') }} {{ pieza.anio|default('') }}
+                    </div>
+                    <div style="font-size: 0.8rem; color: #4b5563; margin-bottom: 8px;">
+                        Disponibles: <strong>{{ pieza.disponibles }}</strong>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="product-price">${{ "%.2f"|format(pieza.precio | float) if pieza.precio is defined and pieza.precio else "0.00" }} MXN</div>
+                    
+                    <div class="d-grid">
+                        {% if pieza.disponibles > 0 %}
+                            <form method="post" action="{{ url_for('agregar_al_carrito', producto_id=pieza._id) }}" style="flex: 1; display: flex;">
+                                <button type="submit" class="btn-add-cart">
+                                    Agregar 🛒
+                                </button>
+                            </form>
+                        {% else %}
+                            <button type="button" class="btn-add-cart" disabled style="background-color: #9ca3af; cursor: not-allowed; flex: 1;">
+                                Sin disponibilidad temporal
+                            </button>
+                        {% endif %}
+                        <a href="{{ url_for('detalle_producto', id=pieza._id) }}" class="btn-view-details">
+                            Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 6px; border: 1px solid #d1d5db;">
+                <p style="color: #6b7280; font-size: 1.1rem;">No se encontraron piezas registradas con este filtro.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

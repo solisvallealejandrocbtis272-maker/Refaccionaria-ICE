@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<h2 class="fw-bold mb-4">Finalizar Compra</h2>
+
+<form method="post" class="row">
+    <div class="col-md-7">
+        <div class="card p-4 shadow-sm mb-4">
+            <h5 class="fw-bold mb-3">1. Dirección de Envío</h5>
+            <div class="mb-3">
+                <label class="form-label">Dirección Completa</label>
+                <textarea name="direccion" class="form-control" rows="3" required placeholder="Calle, Número, Colonia, Código Postal, Ciudad"></textarea>
+            </div>
+
+            <h5 class="fw-bold mb-3">2. Método de Envío</h5>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="metodo_envio" value="Estafeta / Paquetexpress ($150 MXN)" id="envio1" checked>
+                <label class="form-check-label" for="envio1">Envío Estándar Paquetería ($150 MXN)</label>
+            </div>
+            <div class="form-check mb-4">
+                <input class="form-check-input" type="radio" name="metodo_envio" value="Recolección en Taller (Gratis)" id="envio2">
+                <label class="form-check-label" for="envio2">Recoger en Taller Automotriz (Gratis)</label>
+            </div>
+
+            <h5 class="fw-bold mb-3">3. Forma de Pago</h5>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="metodo_pago" value="Tarjeta de Crédito / Débito" id="pago1" checked>
+                <label class="form-check-label" for="pago1">Tarjeta de Crédito / Débito (Stripe / MercadoPago)</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="metodo_pago" value="Transferencia SPEI" id="pago2">
+                <label class="form-check-label" for="pago2">Transferencia Bancaria SPEI</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="metodo_pago" value="Efectivo en OXXO" id="pago3">
+                <label class="form-check-label" for="pago3">Pago en Efectivo (OXXO)</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card p-4 shadow-sm">
+            <h5 class="fw-bold mb-3">Resumen de Compra</h5>
+            {% for item in carrito %}
+            <div class="d-flex justify-content-between small mb-2">
+                <span>{{ item.cantidad }}x {{ item.nombre }}</span>
+                <strong>${{ "%.2f"|format(item.precio * item.cantidad) }}</strong>
+            </div>
+            {% endfor %}
+            <hr>
+            <div class="d-flex justify-content-between fs-4 fw-bold">
+                <span>Total:</span>
+                <span>${{ "%.2f"|format(total) }} MXN</span>
+            </div>
+            <button type="submit" class="btn btn-success btn-lg w-100 mt-4 fw-bold">Confirmar y Pagar</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

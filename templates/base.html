@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Refaccionaria ICE - Tienda de Auto-partes</title>
+    <!-- Únicamente tu hoja de estilos personalizada -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+    <header class="top-header">
+        <div class="header-container">
+            <a class="brand-title" href="{{ url_for('catalogo') }}">
+                 REFACCIONARIA <span>CHAPALA</span>
+            </a>
+
+            <!-- Buscador central -->
+            <form method="get" action="{{ url_for('catalogo') }}" class="search-form">
+                <input type="search" name="q" value="{{ busqueda|default('') }}" placeholder="Buscar refacción, marca o modelo...">
+                <button type="submit">🔍</button>
+            </form>
+
+            <div class="header-actions">
+                {% if session.get('usuario') %}
+                    <span class="user-welcome">Hola, {{ session['usuario'] }}</span>
+                    {% if session.get('rol') == 'admin' %}
+                        <a href="{{ url_for('admin_inventario') }}" class="btn btn-secondary-custom">Admin</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline">Salir</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-outline">Ingresar</a>
+                    <a href="{{ url_for('registro') }}" class="btn btn-primary-custom">Registro</a>
+                {% endif %}
+
+                <!-- Carrito -->
+                <a href="{{ url_for('ver_carrito') }}" class="btn btn-cart">
+                    🛒 Carrito <span class="badge">{{ cantidad_carrito|default(0) }}</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Refaccionaria CHAPALA - Ingeniería y Auto-partes.</p>
+        </div>
+    </footer>
+</body>
+</html>

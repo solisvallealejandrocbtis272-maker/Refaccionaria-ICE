@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<h2 class="fw-bold mb-4" style="font-size: 1.5rem; margin-bottom: 20px;">Tu Carrito de Compras (Apartado Temporal)</h2>
+
+{% if vence_en %}
+<div class="card" style="background-color: #fef3c7; border-color: #f59e0b; margin-bottom: 20px; padding: 12px;">
+    <strong id="contador" data-vence="{{ vence_en.isoformat() }}" style="color: #92400e;">
+        Reserva activa
+    </strong>
+</div>
+{% endif %}
+
+{% if carrito %}
+<div class="row">
+    <div class="col-md-8" style="flex: 1;">
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr class="table-dark">
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in carrito %}
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="{{ item.imagen }}" width="45" height="45" style="object-fit:contain;">
+                                <div>
+                                    <strong>{{ item.nombre }}</strong><br>
+                                    <small style="color: #6b7280;">{{ item.marca }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${{ "%.2f"|format(item.precio) }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td><strong>${{ "%.2f"|format(item.subtotal) }}</strong></td>
+                        <td>
+                            <form method="post" action="{{ url_for('eliminar_del_carrito', producto_id=item.id) }}">
+                                <button class="btn" style="background-color: #fee2e2; color: #991b1b; border: none; padding: 5px 10px;" type="submit">✕ Cancelar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-4" style="width: 300px;">
+        <div class="card">
+            <h4 style="margin-bottom: 15px; font-size: 1.1rem;">Resumen del Pedido</h4>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 1.1rem;">
+                <strong>Total:</strong>
+                <strong style="color: #047857;">${{ "%.2f"|format(total) }} MXN</strong>
+            </div>
+            <a href="{{ url_for('checkout') }}" class="btn btn-primary-custom" style="display: block; text-align: center;">Proceder al Pago</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const contador = document.getElementById("contador");
+    if (contador) {
+        const limite = new Date(contador.dataset.vence).getTime();
+        const reloj = setInterval(() => {
+            const faltan = Math.max(0, limite - Date.now());
+            const min = String(Math.floor(faltan / 60000)).padStart(2, "0");
+            const seg = String(Math.floor((faltan % 60000) / 1000)).padStart(2, "0");
+            contador.textContent = `Tiempo restante de reserva: ${min}:${seg}`;
+            if (faltan === 0) {
+                clearInterval(reloj);
+                location.reload();
+            }
+        }, 1000);
+    }
+</script>
+
+{% else %}
+<div class="card" style="text-align: center; padding: 40px;">
+    <p style="font-size: 1.2rem; color: #6b7280; margin-bottom: 15px;">Tu carrito está vacío o tu reserva ha expirado.</p>
+    <a href="{{ url_for('catalogo') }}" class="btn btn-primary-custom" style="display: inline-block;">Ir al catálogo de refacciones</a>
+</div>
+{% endif %}
+{% endblock %}
